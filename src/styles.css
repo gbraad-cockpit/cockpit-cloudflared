@@ -1,0 +1,226 @@
+.cf-app {
+    padding: 0.5rem 1rem 2rem 1rem;
+}
+
+.cf-app input[type="text"],
+.cf-app textarea {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 3px;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.cf-tabs {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    margin: 1rem 0;
+}
+
+.cf-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.5rem 0.9rem;
+    margin-bottom: -1px;
+    cursor: pointer;
+    color: inherit;
+    font-size: inherit;
+}
+
+.cf-tab:hover {
+    background: rgba(128, 128, 128, 0.12);
+}
+
+.cf-tab-active {
+    border-bottom-color: #0066cc;
+    font-weight: 600;
+}
+
+.cf-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.cf-btn {
+    background: transparent;
+    color: inherit;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 3px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.cf-btn:hover:not(:disabled) {
+    background: rgba(128, 128, 128, 0.15);
+}
+
+.cf-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cf-btn-primary {
+    background: #0066cc;
+    border-color: #0066cc;
+    color: #ffffff;
+}
+
+.cf-btn-primary:hover:not(:disabled) {
+    background: #004080;
+}
+
+.cf-btn-danger {
+    color: #c9190b;
+    border-color: #c9190b;
+}
+
+.cf-btn-danger:hover:not(:disabled) {
+    background: rgba(201, 25, 11, 0.12);
+}
+
+.cf-btn-sm {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.cf-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.cf-table th,
+.cf-table td {
+    text-align: left;
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+    vertical-align: top;
+}
+
+.cf-table th {
+    font-weight: 600;
+}
+
+.cf-mono {
+    font-family: monospace;
+    font-size: 0.85em;
+}
+
+.cf-badge {
+    display: inline-block;
+    padding: 0.05rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.cf-badge-ok {
+    background: rgba(60, 160, 60, 0.18);
+    color: #1e7a1e;
+}
+
+.cf-badge-bad {
+    background: rgba(200, 40, 40, 0.18);
+    color: #c9190b;
+}
+
+.cf-error {
+    color: #c9190b;
+}
+
+.cf-panel {
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+}
+
+.cf-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cf-field {
+    margin: 0.6rem 0;
+}
+
+.cf-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.cf-inline {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.cf-inline-wrap {
+    flex-wrap: wrap;
+}
+
+.cf-grow {
+    flex: 1;
+}
+
+.cf-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.6rem;
+}
+
+.cf-hint {
+    opacity: 0.7;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.cf-strong {
+    font-weight: 600;
+}
+
+.cf-dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.2rem 1rem;
+    margin: 0.4rem 0;
+}
+
+.cf-dl dt {
+    font-weight: 600;
+}
+
+.cf-textarea {
+    width: 100%;
+    min-height: 380px;
+    font-family: monospace !important;
+    font-size: 0.85rem !important;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+.cf-pre {
+    white-space: pre-wrap;
+    max-height: 420px;
+    overflow: auto;
+    background: rgba(128, 128, 128, 0.08);
+    padding: 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.cf-notice {
+    margin: 0.5rem 0;
+}

@@ -1,94 +1,86 @@
 import React from 'react';
 
-import { CloudflareTunnel } from './types';
-import { Icon } from '@patternfly/react-core';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon';
-import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
-import InfoCircleIcon from '@patternfly/react-icons/dist/esm/icons/info-circle-icon';
-import {
-    ExpandableRowContent,
-    Table, Caption, Thead, Tbody, Tr, Th, Td,
-    SortByDirection,
-} from '@patternfly/react-table';
+import { Notify, NotifyVariant } from './notify';
+import { TunnelsTab } from './tunnels';
+import { ServicesTab } from './services';
+import { ConfigTab } from './config';
 
+import { Alert } from '@patternfly/react-core';
 
-type ApplicationProps = {
+type Tab = 'tunnels' | 'services' | 'config';
+
+type Notice = {
+    variant: NotifyVariant;
+    title: string;
+    detail?: string;
+    key: number;
 }
 
 type ApplicationState = {
-    Tunnels: CloudflareTunnel
+    tab: Tab;
+    notice: Notice | null;
 }
 
-export class Application extends React.Component<ApplicationProps, ApplicationState> {
+export class Application extends React.Component<{}, ApplicationState> {
     state: ApplicationState = {
-        Tunnels: null
+        tab: 'tunnels',
+        notice: null,
     }
 
-    constructor(props: ApplicationProps) {
-        super(props);
+    private noticeKey = 0;
 
-        cockpit
-        .spawn(['cloudflared', 'tunnel', 'list', '-o', 'json'])
-        .done(content => {
-            const tunnels: CloudflareTunnel = JSON.parse(content)
-            this.setState(state => ({ Tunnels: tunnels }));
-        });
+    notify: Notify = (variant, title, detail) => {
+        this.noticeKey += 1;
+        this.setState({ notice: { variant, title, detail, key: this.noticeKey } });
+    }
 
+    renderTabs() {
+        const tabs: { id: Tab; label: string }[] = [
+            { id: 'tunnels', label: 'Tunnels' },
+            { id: 'services', label: 'Services' },
+            { id: 'config', label: 'Config' },
+        ];
+        return (
+            <div className="cf-tabs">
+                {tabs.map(t => (
+                    <button
+                        key={t.id}
+                        className={'cf-tab' + (this.state.tab === t.id ? ' cf-tab-active' : '')}
+                        onClick={() => this.setState({ tab: t.id })}>
+                        {t.label}
+                    </button>
+                ))}
+            </div>
+        );
     }
 
     render() {
-        return (
-            <> {
-                this.state.Tunnels != null
-                    ? <Table
-                            aria-label="Cloudflare tunnels"
-                            variant='compact' borders={false}>
-                            <Caption>Cloudflare tunnels</Caption>
-                            <Thead>
-                                <Tr>
-                                    <Th></Th>
-                                    <Th>ID</Th>
-                                    <Th>Name</Th>
-                                    <Th>Connections</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {
-                                    Object.values(this.state.Tunnels)
-                                        .map(tunnel => {
-                                            return <Tunnel {...tunnel} />
-                                        }
-                                    )
-                                }
-                            </Tbody>
-                        </Table>
-
-                    : <p>Loading...</p>
-                }
-            </>
-    )}
-}
-
-class Tunnel extends React.Component<CloudflareTunnel> {
-    render() {
-
-        var connections = "-"
-        if (this.props.connections.length > 0) {
-            const mapped_items = this.props.connections.map(t => { return t.colo_name })
-            connections = mapped_items.join(', ')
-        }
+        const { tab, notice } = this.state;
 
         return (
-            <Tr>
-                <Td>
-                <Td>{this.props.connections.length > 0
-                        ? <Icon status="success"><CheckCircleIcon /></Icon>
-                        : <Icon status="danger"><ExclamationCircleIcon /></Icon>
-                    }</Td>
-                </Td>
-                <Td>{this.props.id}</Td>
-                <Td>{this.props.name}</Td>
-                <Td>{connections}</Td>
-            </Tr>);
+            <div className="cf-app">
+                <h1>Cloudflare tunnels</h1>
+
+                {notice && (
+                    <div className="cf-notice">
+                        <Alert
+                            variant={notice.variant}
+                            isInline
+                            title={notice.title}
+                            actionClose={<button className="cf-btn cf-btn-sm" onClick={() => this.setState({ notice: null })}>Dismiss</button>}>
+                            {notice.detail}
+                        </Alert>
+                    </div>
+                )}
+
+                {this.renderTabs()}
+
+                <div className="cf-tab-body">
+                    {tab === 'tunnels' && <TunnelsTab notify={this.notify} />}
+                    {tab === 'services' && <ServicesTab notify={this.notify} />}
+                    {tab === 'config' && <ConfigTab notify={this.notify} />}
+                </div>
+            </div>
+        );
     }
 }
